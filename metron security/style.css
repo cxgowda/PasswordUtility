@@ -1,0 +1,16 @@
+/* Style the body */
+body {
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    height: 100vh;            /* Full viewport height */
+    margin: 0;
+    background-color: #b31d1d;  /* Light gray background */
+    font-family: Arial, sans-serif;
+}
+
+/* Style the Hello World text */
+h1 {
+    color: #333;
+    font-size: 3rem;
+}
