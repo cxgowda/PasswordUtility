@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Sign Up</h2>
+
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <input type="password" id="retypepassword" placeholder="Enter Password Again">
+
+    <button onclick="signup()">Sign Up</button>
+
+    <p id="output"></p>
+</div>
+
+<script>
+    function signup() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        const confirm = document.getElementById("retypepassword").value;
+
+        if (!user || !pass || !confirm) {
+            document.getElementById("output").innerText = "❌ All fields are required";
+            return;
+        }
+
+        fetch(`http://localhost:8080/api/signup?user=${user}&pass=${pass}&confirm=${confirm}`, {
+            method: "POST"
+        })
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById("output").innerText = data;
+
+            // Redirect if successful
+            if (data.includes("Successful")) {
+                setTimeout(() => window.location.href = "dashboard.html", 1000);
+            }
+        })
+        .catch(err => console.error(err));
+    }
+</script>
+
+</body>
+</html>
