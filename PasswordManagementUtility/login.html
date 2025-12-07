@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="output"></p>
+</div>
+
+<script>
+    function login() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+
+        fetch(`http://localhost:8080/api/login?user=${user}&pass=${pass}`, {
+            method: "POST"
+        })
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById("output").innerText = data;
+            if (data.includes("✔ Login Successful")) {
+                setTimeout(() => window.location.href = "dashboard.html?user=" + user, 1000);
+            }
+        });
+    }
+</script>
+</body>
+</html>

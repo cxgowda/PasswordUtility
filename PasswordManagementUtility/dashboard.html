@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h2 id="welcome">Welcome!</h2>
+    <p>You are now logged in.</p>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("user");
+    document.getElementById("welcome").innerText = "Welcome, " + username + "!";
+</script>
+</body>
+</html>

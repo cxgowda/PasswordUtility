@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sign Up Page</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="container">
     <h2>Sign Up</h2>
 
-    <input type="text" id="username" placeholder="Enter Username">
-    <input type="password" id="password" placeholder="Enter Password">
-    <input type="password" id="retypepassword" placeholder="Enter Password Again">
-
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <input type="password" id="confirm" placeholder="Confirm Password">
     <button onclick="signup()">Sign Up</button>
 
     <p id="output"></p>
@@ -22,28 +20,35 @@
     function signup() {
         const user = document.getElementById("username").value;
         const pass = document.getElementById("password").value;
-        const confirm = document.getElementById("retypepassword").value;
+        const confirm = document.getElementById("confirm").value;
 
-        if (!user || !pass || !confirm) {
-            document.getElementById("output").innerText = "❌ All fields are required";
-            return;
-        }
+        // Prepare POST body as form data
+        const params = new URLSearchParams();
+        params.append("user", user);
+        params.append("pass", pass);
+        params.append("confirm", confirm);
 
-        fetch(`http://localhost:8080/api/signup?user=${user}&pass=${pass}&confirm=${confirm}`, {
-            method: "POST"
+        fetch("http://localhost:8080/api/signup", {
+            method: "POST",
+            body: params
         })
         .then(res => res.text())
         .then(data => {
+            data = data.trim();
             document.getElementById("output").innerText = data;
 
-            // Redirect if successful
-            if (data.includes("Successful")) {
-                setTimeout(() => window.location.href = "dashboard.html", 1000);
+            // Redirect to login page if signup is successful
+            if (data.startsWith("✅ Signup Successful")) {
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1000);
             }
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            console.error("Signup error:", err);
+            document.getElementById("output").innerText = "❌ Something went wrong!";
+        });
     }
 </script>
-
 </body>
 </html>
